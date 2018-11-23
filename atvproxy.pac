@@ -1,6 +1,6 @@
     var hasOwnProperty = Object.hasOwnProperty;
     var iproxy ='DIRECT';
-    var proxy =  "PROXY 192.168.31.1:10080;";
+    var proxy =  "PROXY 192.168.1.24:10080;";
     var tvproxy = "PROXY proxy.freeeeetv.com:8002";
     var list = [
         [
