@@ -1,3 +1,4 @@
+//http://proxy.freeeeetv.com:8000/test.pac
 function FindProxyForURL(url, host) {
   var PROXY = "PROXY proxy.freeeeetv.com:8002";
   var DEFAULT = "DIRECT";
