@@ -38,3 +38,4 @@ jobs:
         unzip gtja.app.zip
         ls
         mv gtja.app /Applications
+        python test.py
