@@ -203,6 +203,7 @@ def buy(codes, positions):
             time.sleep(0.2)
 
         except:
+            pass
             # logger.exception('Exception while tdx.buy')
 
 
