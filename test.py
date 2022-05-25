@@ -1,5 +1,7 @@
 import atomac
 from atomac.AXKeyCodeConstants import *
+import time
+import re
 
 
 _tdx = None
