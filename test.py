@@ -349,6 +349,7 @@ def _loginFirstIfUnlogin(account, password):
         except:
             pass
     except:
+        pass
         # logger.debug('exception at _loginFirstIfUnlogin', exc_info=True)
 
 
