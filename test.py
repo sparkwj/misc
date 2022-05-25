@@ -48,6 +48,7 @@ def _ensureLogin(account, password):
         _loginFirstIfLocked(password)
         _confirmIfMessage()
         time.sleep(0.1)
+        break
     time.sleep(0.2)
 
 
