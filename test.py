@@ -253,6 +253,7 @@ def sell(codes):
             time.sleep(0.2)
 
         except:
+            pass
             # logger.exception('Exception while tdx.sell')
 
 
