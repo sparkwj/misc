@@ -174,6 +174,7 @@ def buy(codes, positions):
 
             amount = int(money / price / 100) * 100
             if amount < 100:
+                print(33)
                 # logger.error('money: {} can not buy {} 100 shares, stock price: {}'.format(money, code, price))
                 # amount = 100
             # logger.debug('amount is: {}'.format(amount))
