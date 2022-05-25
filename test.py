@@ -11,7 +11,7 @@ TRADE_PASSWORD = ''
 
 
 def login(account=None, password=None):
-    logger.debug('enter login')
+    # logger.debug('enter login')
     if password is None:
         raise Exception('Trade api needs account and password!')
 
@@ -19,7 +19,7 @@ def login(account=None, password=None):
     bundle_id = 'com.tdx.tdxiMac'
     atomac.launchAppByBundleId(bundle_id)
     _tdx = atomac.getAppRefByBundleId(bundle_id)
-    logger.debug('wait front')
+    # logger.debug('wait front')
     while True:
         time.sleep(0.1)
         first = _tdx.findFirst()
@@ -30,7 +30,7 @@ def login(account=None, password=None):
         except:
             pass
     _login(account, password)
-    logger.debug('finish login')
+    # logger.debug('finish login')
 
 
 def _login(account, password):
@@ -39,7 +39,7 @@ def _login(account, password):
 
 
 def _ensureLogin(account, password):
-    logger.debug('enter _ensureLogin')
+    # logger.debug('enter _ensureLogin')
     global _tdx
     while not _checkIfAlreadyLogin():
         _loginFirstIfUnlogin(account, password)
@@ -50,18 +50,18 @@ def _ensureLogin(account, password):
 
 
 def _checkIfAlreadyLogin():
-    logger.debug('check if already login')
+    # logger.debug('check if already login')
     global _tdx
     try:
         buttons = _tdx.windows()[0].AXChildren[2]._convenienceMatchR('AXTextField', 'AXValue', '       历史成交')
         if len(buttons) > 0:
-            logger.debug('check login success')
+            # logger.debug('check login success')
             return True
         else:
-            logger.debug('not login at else')
+            # logger.debug('not login at else')
             return False
     except:
-        logger.debug('not login at except')
+        # logger.debug('not login at except')
         return False
 
 
@@ -134,33 +134,33 @@ def _table_to_dataframe(header_key):
 
 
 def buy(codes, positions):
-    logger.debug('enter buy')
+    # logger.debug('enter buy')
     global _tdx
     _activate()
     time.sleep(0.1)
-    logger.debug('will press buy button')
+    # logger.debug('will press buy button')
     _tdx.windows()[0]._convenienceMatch('AXCheckBox', 'AXTitle', '买入')[0].Press()
     time.sleep(0.2)
 
     codes = [codes] if isinstance(codes, str) else codes
 
-    logger.debug('loop codes for buy')
+    # logger.debug('loop codes for buy')
     for code, money in zip(codes, positions):
-        logger.debug('target code is: {}'.format(code))
+        # logger.debug('target code is: {}'.format(code))
 
         try:
             time.sleep(0.2)
-            logger.debug('will press order type 1')
+            # logger.debug('will press order type 1')
             _tdx.windows()[0]._convenienceMatch('AXComboBox', 'AXTitle', None)[1].AXChildren[0].Press()
             _tdx.windows()[0]._convenienceMatch('AXComboBox', 'AXTitle', None)[1].AXChildren[0].Press()
             types = _tdx.windows()[0]._convenienceMatch('AXComboBox', 'AXTitle', None)[1].AXChildren[1].AXChildren[
                 0].AXChildren
             type_index = 0
-            logger.debug('will click type option')
+            # logger.debug('will click type option')
             _click(types[type_index])
             time.sleep(0.1)
 
-            logger.debug('set code focus')
+            # logger.debug('set code focus')
             _tdx.windows()[0].textFields()[0].AXFocused = True
             _tdx.windows()[0].textFields()[0].setString('AXValue', code)
             # _tdx.windows()[0].textFields()[0].Confirm()
@@ -168,26 +168,26 @@ def buy(codes, positions):
 
             price = _tdx.windows()[0].textFields()[2].AXValue
             price = float(price)
-            logger.debug('price is: {}'.format(price))
+            # logger.debug('price is: {}'.format(price))
 
             amount = int(money / price / 100) * 100
             if amount < 100:
-                logger.error('money: {} can not buy {} 100 shares, stock price: {}'.format(money, code, price))
+                # logger.error('money: {} can not buy {} 100 shares, stock price: {}'.format(money, code, price))
                 # amount = 100
-            logger.debug('amount is: {}'.format(amount))
+            # logger.debug('amount is: {}'.format(amount))
 
             _tdx.windows()[0].textFields()[1].setString('AXValue', amount)
             _tdx.windows()[0].textFields()[1].Confirm()
             time.sleep(0.5)
 
-            logger.debug('select order type option')
+            # logger.debug('select order type option')
             _tdx.windows()[0]._convenienceMatch('AXComboBox', 'AXTitle', None)[1].AXChildren[0].Press()
             _tdx.windows()[0]._convenienceMatch('AXComboBox', 'AXTitle', None)[1].AXChildren[0].Press()
             # time.sleep(0.1)
             types = _tdx.windows()[0]._convenienceMatch('AXComboBox', 'AXTitle', None)[1].AXChildren[1].AXChildren[
                 0].AXChildren
             type_index = 4 if len(types) > 3 else 1
-            logger.debug('click order option: {}'.format(types[type_index]))
+            # logger.debug('click order option: {}'.format(types[type_index]))
             _click(types[type_index])
             time.sleep(0.1)
 
@@ -200,23 +200,23 @@ def buy(codes, positions):
             time.sleep(0.2)
 
         except:
-            logger.exception('Exception while tdx.buy')
+            # logger.exception('Exception while tdx.buy')
 
 
 def sell(codes):
-    logger.debug('enter sell')
+    # logger.debug('enter sell')
     global _tdx
     _activate()
     time.sleep(0.1)
-    logger.debug('press the sell button')
+    # logger.debug('press the sell button')
     _tdx.windows()[0]._convenienceMatch('AXCheckBox', 'AXTitle', '卖出')[0].Press()
     time.sleep(0.1)
 
     codes = [codes] if isinstance(codes, str) else codes
 
-    logger.debug('loop codes for sell')
+    # logger.debug('loop codes for sell')
     for code in codes:
-        logger.debug('target code: {}'.format(code))
+        # logger.debug('target code: {}'.format(code))
         try:
             _tdx.windows()[0].textFields()[0].AXFocused = True
             _tdx.windows()[0].textFields()[0].setString('AXValue', code)
@@ -232,7 +232,7 @@ def sell(codes):
             types = _tdx.windows()[0]._convenienceMatch('AXComboBox', 'AXTitle', None)[1].AXChildren[1].AXChildren[
                 0].AXChildren
             type_index = 4 if len(types) > 3 else 1
-            logger.debug('click order option: {}'.format(types[type_index]))
+            # logger.debug('click order option: {}'.format(types[type_index]))
             _click(types[type_index])
             time.sleep(0.1)
 
@@ -249,7 +249,7 @@ def sell(codes):
             time.sleep(0.2)
 
         except:
-            logger.exception('Exception while tdx.sell')
+            # logger.exception('Exception while tdx.sell')
 
 
 # def query_order(codes, flag=None):
@@ -284,7 +284,7 @@ def _confirmIfMessage():
         title = _tdx.windows()[0].AXChildren[1].AXValue
         message = _tdx.windows()[0].AXChildren[2].AXValue
         if title in ('提示', '交易确认', '连接确认'):
-            logger.debug('confirm message {}: {}'.format(title, message))
+            # logger.debug('confirm message {}: {}'.format(title, message))
             button = _tdx.windows()[0].AXChildren[3]
             if button.AXTitle in ('确定', '是'):
                 button.Press()
@@ -292,11 +292,11 @@ def _confirmIfMessage():
 
             if 'KCBPCLI_CallProgramAndCommit' in message:
                 minutes = 30
-                logger.info('KCBPCLI_CallProgramAndCommit失败, system in maitain, wait {} minutes ...'.format(minutes))
+                # logger.info('KCBPCLI_CallProgramAndCommit失败, system in maitain, wait {} minutes ...'.format(minutes))
                 time.sleep(60 * minutes)
             elif '接收应答超时或网络已断开' in message:
                 minutes = 10
-                logger.info('接收应答超时或网络已断开, wait {} minutes...'.format(minutes))
+                # logger.info('接收应答超时或网络已断开, wait {} minutes...'.format(minutes))
                 time.sleep(60 * minutes)
     except:
         pass
@@ -336,7 +336,7 @@ def _loginFirstIfUnlogin(account, password):
         _tdx.windows()[0].AXChildren[1].AXChildren[9].setString('AXValue', password)
         time.sleep(0.1)
         _tdx.windows()[0].AXChildren[1].AXChildren[13].Press()
-        logger.debug('will waiting for login button enabled')
+        # logger.debug('will waiting for login button enabled')
         try:
             while not _tdx.windows()[0].AXChildren[1].AXChildren[13].AXEnabled:
                 time.sleep(1)
@@ -344,7 +344,7 @@ def _loginFirstIfUnlogin(account, password):
         except:
             pass
     except:
-        logger.debug('exception at _loginFirstIfUnlogin', exc_info=True)
+        # logger.debug('exception at _loginFirstIfUnlogin', exc_info=True)
 
 
 def _loginFirstIfLocked(password):
